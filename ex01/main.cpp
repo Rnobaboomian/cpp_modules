@@ -1,16 +1,28 @@
-#include <iostream>
+#include "./Phonebook.hpp"
+
 
 int main(void)
 {
-	char read_line[2];
+	std::string read_line;
+	Phonebook ph;
 	while (1)
 	{
-		std:: cin >> read_line;
-		if(*read_line)
-		{
-			std::cout << read_line <<std::endl;
-			std::cout << std::strlen(read_line) <<std::endl;
-		}
+		getline(std::cin, read_line);
+		if (std::cin.eof())
+			continue;
+			if(read_line.compare("ADD") == 0)
+				ph.Add();
+			else if(read_line.compare("SEARCH") == 0)
+				ph.search();
+			else if(read_line.compare("EXIT") == 0)
+			{
+				ph.ft_exit();
+				ph.~Phonebook();
+				break ;
+			}
+			else
+				std::cout << "wrong command" <<std::endl;
+				
 	}
 	return(1);
 }

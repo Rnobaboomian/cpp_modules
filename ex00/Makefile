@@ -12,8 +12,9 @@ $(NAME):
 clean:
 	$(RM) $(NAME)
 
-fclean: clean all;
+fclean: clean
+	$(RM) $(NAME)
 
-re : fclean
+re : fclean all
 
 .PHONY : all fclean clean re
