@@ -9,7 +9,9 @@ int main(void)
 	{
 		getline(std::cin, read_line);
 		if (std::cin.eof())
-			continue;
+			return 1;
+		if(read_line[0])
+		{
 			if(read_line.compare("ADD") == 0)
 				ph.Add();
 			else if(read_line.compare("SEARCH") == 0)
@@ -22,7 +24,7 @@ int main(void)
 			}
 			else
 				std::cout << "wrong command" <<std::endl;
-				
+		}		
 	}
 	return(1);
 }

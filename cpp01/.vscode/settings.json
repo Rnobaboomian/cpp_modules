@@ -1,7 +1,5 @@
 {
 	"files.associations": {
-		"cstring": "cpp",
-		"iostream": "cpp",
 		"__bit_reference": "cpp",
 		"__config": "cpp",
 		"__debug": "cpp",
@@ -24,6 +22,7 @@
 		"cstdint": "cpp",
 		"cstdio": "cpp",
 		"cstdlib": "cpp",
+		"cstring": "cpp",
 		"ctime": "cpp",
 		"cwchar": "cpp",
 		"cwctype": "cpp",
@@ -32,6 +31,7 @@
 		"initializer_list": "cpp",
 		"ios": "cpp",
 		"iosfwd": "cpp",
+		"iostream": "cpp",
 		"istream": "cpp",
 		"iterator": "cpp",
 		"limits": "cpp",
