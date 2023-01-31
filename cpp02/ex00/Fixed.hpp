@@ -1,5 +1,5 @@
-#ifndef HARL_HPP
-#define HARL_HPP
+#ifndef FIXED_HPP
+#define FIXED_HPP
 
 #include <iostream>
 
@@ -13,19 +13,19 @@ const std::string UCYN = "\e[4;36m";
 const std::string UWHT = "\e[4;37m";
 const std::string RESET = "\e[0;37m";
 
-class Harl
+class Fixed
 {
 private:
-	void debug( void );
-	void info( void );
-	void warning( void );
-	void error( void );
+	int fixed_point;
+	static const int fractional_bits = 8;
 public:
-	Harl();
-	~Harl();
-	void complain( std::string level );
+	Fixed( void );
+	~Fixed();
+	Fixed(Fixed const &copy);
+	Fixed &operator=(Fixed const &copy);
+	int getRawBits( void )const ;
+	void setRawBits( int const raw );
 };
-
 
 
 
