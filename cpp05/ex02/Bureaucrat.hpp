@@ -3,9 +3,9 @@
 
 #include <iostream>
 #include <ostream>
-#include "./Form.hpp"
+#include "./AForm.hpp"
 
-class Form;
+class AForm;
 
 class Bureaucrat
 {
@@ -20,7 +20,8 @@ public:
 	void increment( void );
 	void decrement( void );
 	std::string getName()const;
-	void signForm(Form &form);
+	 void signForm(AForm &form);
+	 void executeForm( AForm& form);
 	class GradeTooHighException : public std::exception
 	{
 		const char	*what() const throw();	
@@ -31,6 +32,8 @@ public:
 	};
 
 };
+
+
 
 	
 std::ostream &operator<<(std::ostream &dst,const Bureaucrat &src);

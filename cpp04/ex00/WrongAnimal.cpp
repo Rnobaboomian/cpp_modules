@@ -28,8 +28,9 @@ WrongAnimal::~WrongAnimal()
 
 void WrongAnimal::makeSound( void )const
 {
-	if(_type == "Cat" || _type == "Dog")
-		std::cout << (_type == "Cat" ? "meoww" : "bark!") << std::endl;
+	std::cout << "animal sound\n";
+	// if(_type == "Cat" || _type == "Dog")
+	// 	std::cout << (_type == "Cat" ? "meoww" : "bark!") << std::endl;
 }
 
 void WrongAnimal::setType(std::string name)

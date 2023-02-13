@@ -8,6 +8,7 @@ class Cat : public Animal
 private:
 	Brain *brain;
 public:
+	using Animal::setType;
 	Cat();
 	~Cat();
 	Cat(const Cat& copy);

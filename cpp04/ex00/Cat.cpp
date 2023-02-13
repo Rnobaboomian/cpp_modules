@@ -24,7 +24,7 @@ Cat::~Cat()
 	std::cout << " Cat : destructor called called " << std::endl;
 }
 
-void Cat::makeSound( void )
+void Cat::makeSound( void )const 
 {
 	if(_type == "Cat" || _type == "Dog")
 		std::cout << (_type == "Cat" ? "meoww" : "bark!") << std::endl;

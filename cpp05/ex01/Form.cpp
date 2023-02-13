@@ -5,9 +5,9 @@ const std::string Form::getName()const
 	return _name;
 }
 
-const int Form::getGrade()const
+ int Form::getGrade()const
 {
-	return ;
+	return exec_grade;
 }
 
 std::ostream&	operator << (std::ostream &dst,const Form& src)
@@ -16,12 +16,13 @@ std::ostream&	operator << (std::ostream &dst,const Form& src)
 	return dst;
 }
 
-Form::Form() : req_grade(70),exec_grade(0),_name("default_Form")
+Form::Form() :_name("default_Form"),req_grade(70),exec_grade(90)
 {
+	_signed = false;
 	std::cout << _name << " default custrutor called" << std::endl;
 }
 
-Form::Form(std::string name,int grade):req_grade(70),exec_grade(grade),_name(name)
+Form::Form(std::string name,int grade):_name(name),req_grade(70),exec_grade(grade)
 {
 	std::cout << _name << " custom cunstructor called " << std::endl;
 }
@@ -29,4 +30,38 @@ Form::Form(std::string name,int grade):req_grade(70),exec_grade(grade),_name(nam
 Form::~Form()
 {
 	std::cout << _name << " destructor called" << std::endl;
+}
+
+void Form::beSigned(Bureaucrat &bur)
+{
+	int i = bur.getGrade();
+	if(i < 1)
+		throw Form::GradeTooHighException();
+	if(i > 150)
+		throw Form::GradeTooLowException();
+	if(i <  req_grade)
+		_signed = true;
+	else
+		_signed = false;
+	bur.signForm(*this);
+}
+
+const char	*Form::GradeTooHighException::what() const throw() 
+{ 
+	return "form : HIGHHHHHHHHHHH"; 
+
+}
+const char	*Form::GradeTooLowException::what() const throw() 
+{
+	 return "form : LOWWWWWW"; 
+}
+
+bool Form::ifSigned()const
+{
+	return _signed;
+}
+
+ int Form::get_req()
+{
+	return req_grade;
 }

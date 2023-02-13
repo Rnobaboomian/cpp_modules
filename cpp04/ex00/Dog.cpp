@@ -24,7 +24,7 @@ Dog::~Dog()
 	std::cout << " Dog : destructor called called " << std::endl;
 }
 
-void Dog::makeSound( void )
+void Dog::makeSound( void )const
 {
 	if(_type == "Dog" || _type == "Dog")
 		std::cout << (_type == "Dog" ? "meoww" : "bark!") << std::endl;

@@ -1,9 +1,9 @@
 #ifndef WRONGCAT_HPP
 #define WRONGCAT_HPP
 
-#include "Animal.hpp"
+#include "./WrongAnimal.hpp"
 
-class WrongCat : public Animal
+class WrongCat : public WrongAnimal
 {
 private:
 	/* data */
@@ -12,7 +12,7 @@ public:
 	~WrongCat();
 	WrongCat(const WrongCat& copy);
 	WrongCat &operator=(const WrongCat &copy);
-	void makeSound( void );
+	void makeSound( void )const;
 };
 
 

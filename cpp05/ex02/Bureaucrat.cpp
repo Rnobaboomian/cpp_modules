@@ -59,11 +59,24 @@ std::ostream&	operator << (std::ostream &dst,const Bureaucrat& src)
 	dst << src.getName() << " GRADE " << src.getGrade();
 	return dst;
 }
-void Bureaucrat::signForm(Form &form)
+void Bureaucrat::signForm(AForm &form)
 {
 		//form.beSigned(this);
 		if(form.ifSigned())
 			std::cout << name << " sign the form" << std::endl;
 		else
 			std::cout << name << " could not sign the form" << std::endl;
+}
+
+void	Bureaucrat::executeForm( AForm& form)
+{
+	try
+	{
+		form.execute(*this);
+		std::cout <<  this->name << " executed " << form.getName() << "." << std::endl;
+	}
+	catch (const std::exception &e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 }
