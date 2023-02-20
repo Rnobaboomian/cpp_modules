@@ -1,4 +1,4 @@
-NAME = ScalarConverter
+NAME = Whatever
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 CC = c++
 SRC = $(wildcard ./*.cpp)

@@ -1,54 +1,70 @@
-#ifndef SCALAR_HPP
-#define SCALAR_HPP
+#ifndef SCALARCONVERTER_HPP
+#define SCALARCONVERTER_HPP
 
 #include <iostream>
+#include <fstream>
 
-class ScalarConverter
-{
-private:
-	ScalarConverter();
-	ScalarConverter(ScalarConverter &copy);
-public:
-	void convert(std::string &lit);
-	ScalarConverter &operator=(ScalarConverter &copy);
-	~ScalarConverter();
+enum enum_type {
+	NONE,
+	LITERAL,
+	CHAR,
+	INT,
+	FLOAT,
+	DOUBLE
 };
 
-ScalarConverter &ScalarConverter::operator=(ScalarConverter &copy)
-{
-	(void)copy;
-	return *this;
-}
+class ScalarConverter {
 
-void ScalarConverter::convert(std::string &lit)
-{
-	std::string to_put = "";
-	std::string nan[6] = {"-inf","+inf","nan","nanf","+inff","-inff"};
-	for (size_t i = 0; i < 3; i++)
-	{
-		if(lit.compare(nan[i]) == 0)
-		{
-			
-			to_put = nan[i];
-			std::cout << " char :" << " impossible" << std::endl;
-			std::cout << " int :" << " impossible" << std::endl;
-			std::cout << " double :" << (to_put = (nan[i] == "nanf" ||nan[i] == "+inff" ||nan[i] == "-inff") ? nan[i].substr(0,nan[i].length() - 2) : nan[i] )<< std::endl;
-			std::cout << " float :" << to_put << std::endl;
-			return ;
-		}
-	}
+private:
+	char	_char;
+	int		_int;
+	float	_float;
+	double	_double;
 
+	bool	_isPossible;
+	std::string _string;
+	enum_type e_type;
+public:
+	ScalarConverter();
+	ScalarConverter(const ScalarConverter& copy);
+	~ScalarConverter();
+	ScalarConverter &operator=(const ScalarConverter &copy);
 	
-}
+	void	setChar(char c);
+	void	setInt(int i);
+	void	setFloat(float f);
+	void	setDouble(double d);
+	void	setEnumType(void);
+	void	setString(std::string s);
 
-ScalarConverter::ScalarConverter(){}
+	char	getChar(void)			const;
+	int		getInt(void)			const;
+	float	getFloat(void)			const;
+	double	getDouble(void)			const;
+	std::string	getString(void)		const;
+	enum_type	getEnumType(void)	const;
 
-ScalarConverter::ScalarConverter(ScalarConverter &copy)
-{
-	*this = copy;
-}
+	bool	isChar(void) const;
+	bool	isInt(void) const;
+	bool	isFloat(void) const;
+	bool	isDouble(void) const;
+	bool	isPossible(void);
+	bool	isLiteral(void) const;
 
-ScalarConverter::~ScalarConverter(){}
+	void	printChar(void) const;
+	void	printInt(void) const;
+	void	printFloat(void) const;
+	void	printDouble(void) const;
 
+	class ScalarConverterException : public std::exception {
+		virtual const char* what() const throw() { 
+			return "unknown type"; 
+		}
+	};
+
+	void	convert(void);
+};
+
+std::ostream& operator<<(std::ostream& out, const ScalarConverter& obj);
 
 #endif

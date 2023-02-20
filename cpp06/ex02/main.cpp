@@ -20,6 +20,7 @@ Base *generate(void)
 
 void identify(Base *ptr)
 {
+	//dynamic cast throw an exeption when it passes with refferance
 
 			if(dynamic_cast <A*>(ptr))
 				std::cout << "A" << std::endl;
