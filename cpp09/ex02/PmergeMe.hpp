@@ -5,41 +5,52 @@
 #include <list>
 #include <vector>
 #include <deque>
+#include <set>
+#include <chrono>
+
+struct ListType
+{
+	enum List
+	{
+        list,
+        vector,
+        deque
+	};
+};
 
 class PmergeMe
 {
 private:
-    static PmergeMe *instance;
+    static PmergeMe *instanace;
     std::vector<int>input_vector;
     std::deque<int>input_deque;
-    std::vector<std::string>input_list;
+    std::set<int>input_list;
+    int limit;
 private:
     class BADINPUT : std::exception
     {
         const char *what()const throw();
     };
-public:
+private:
+    template <typename T>
+    void merge(T& arr, int left, int mid, int right);
+    template <typename T>
+    void insertSort(T&arr,int left, int right);
+    template <typename T>
+    void mergeSort(T& arr, int left, int right);
     PmergeMe();
     PmergeMe(char **av);
+public:
     ~PmergeMe();
-    PmergeMe *getMerge(char **av);
+    bool is_numeric(std::string const &str);
+    void hybridSort();
+    static PmergeMe *getMerge(char **av);
 };
 
+//#include "./PmergeMe.cpp"
 
-PmergeMe::PmergeMe(char **av)
-{
-    int i = -1;
-    while (av[++i])
-        input_list.push_back(av[i]);
-    
-}
-PmergeMe::PmergeMe()
-{
-}
 
-PmergeMe::~PmergeMe()
-{
-}
+
 
 
 
