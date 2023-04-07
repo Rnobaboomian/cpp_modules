@@ -67,7 +67,10 @@ void BitcoinExchange::startExchange()
 {
     std::ifstream input(this->exchange_list_path);
     if(!input)
-        throw BAD_FORMAT();
+    {
+        std::cerr << "cant open the file\n";
+        return ;
+    }
     std::string date_;
     std::string value;
     std::string line;
@@ -78,12 +81,16 @@ void BitcoinExchange::startExchange()
     try
     {
         if(line.size() == 0)
+        {
             throw BAD_FORMAT();
+            //std::cout << "1\n";
+        }
         if(i++ < 1)
             continue;
         index = line.find_first_of('|',0);
         if(index == std::string::npos)
         {
+            //std::cout << " 2\n";
             throw BAD_FORMAT();
             continue;
         }
@@ -93,9 +100,13 @@ void BitcoinExchange::startExchange()
             std::map<std::string,float>::iterator it = rate.lower_bound(date_);
             if(it->first != date_)
             {
-                if (it == rate.begin())
+                /* if (it == rate.begin())
+                {
+                    std::cout << value << " 3\n";
                     throw BAD_FORMAT();
-                --it;
+                } */
+                if(it != rate.begin())
+                    --it;
             }
             std::cout << date_ << " => " << value << " = " << std::stof(value) * it->second << std::endl;
     }
@@ -123,27 +134,43 @@ void BitcoinExchange::startExchange()
 void BitcoinExchange::validate(std::string const &text)
 {
     if(std::count(text.begin(),text.end(),'|') != 1)
+    {
+       // std::cout << "4\n";
         throw BAD_FORMAT();
+    }
     std::string date_;
     std::string value;
     std::size_t index;
     index = text.find_first_of('|',0);
     if(index == std::string::npos)
+    {
+       // std::cout << "5\n";
         throw BAD_FORMAT();
+    }
     if(text.size() < index + 1)
+    {
+        //std::cout << "6\n";
         throw BAD_FORMAT();
+    }
     date_ = trim(text.substr(0,index));
     value = trim(text.substr(index + 1,text.size() - index));
     vlaue_validate(value);
     if(std::count(date_.begin(),date_.end(),'-') != 2)
+    {
+        //std::cout << "7\n";
         throw BAD_FORMAT();
+
+    }
     std::string year;
     std::string month;
     std::string day;
     std::size_t first;
     std::size_t last;
     if(date_.length() != 10)
+    {
+       // std::cout << "8\n";
         throw BAD_FORMAT();
+    }
     first = date_.find_first_of('-',0);
     last = date_.find_first_of('-',first + 1);
     year = date_.substr(0,first);
@@ -193,17 +220,29 @@ void BitcoinExchange::is_valid_date(std::string const &year,std::string const &m
     M = std::stof(month);
    // std::cout << " year is ==> " + year << " month is ==> " + month << " day is ==> " + day <<std::endl;
     if(day.size() == 0 || month.size() == 0 || year.size() == 0)
+    {
+       // std::cout << "9\n";
         throw BAD_FORMAT();
+    }
     if(!(is_numeric(year) && is_numeric(month) && is_numeric(day)))
+    {
+        //std::cout << "10\n";
         throw BAD_FORMAT();
+    }
     if( (D <= 0 || D > 31) || (Y <= 0) || (M > 12 || M <= 0))
+    {
+        //std::cout << "11\n";
         throw BAD_FORMAT();
+    }
 }
 
 void BitcoinExchange::vlaue_validate(std::string const &value)
 {
          if((std::stof(value) > 1000 || std::stof(value) < 0))
+         {
+                //std::cout << value<<" 12\n";
                 throw BAD_FORMAT();
+         }
   
     
 }
