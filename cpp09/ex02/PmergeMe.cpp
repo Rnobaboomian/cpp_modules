@@ -12,7 +12,6 @@ PmergeMe::PmergeMe(char **av)
         int i = 0;
         while (av[++i])
         {
-            //input_list.insert(atoi(av[i]));
             input_deque.push_back(atoi(av[i]));
             input_vector.push_back(atoi(av[i]));
         }
@@ -29,18 +28,8 @@ PmergeMe::~PmergeMe()
 {
 }
 
-/* template <typename T>
-void print_data(T &arr)
-{
-    typename T::iterator it = input_vector.begin();
-    while (it != input_vector.end())
-    {
-        std::cout << *it << " ";
-        ++it;
-    }
-    std::endl;
-} */
-////////////////////////////////////////////////////////////////////////////////
+
+
 
 template <typename T>
 void PmergeMe::merge(T& arr, int left, int mid, int right)
@@ -110,26 +99,37 @@ void PmergeMe::mergeSort(T& arr, int left, int right)
 void PmergeMe::hybridSort() 
 {
    
+    double start;
+    double vec;
+    double deq;
+    std::deque<int>::iterator itt = input_deque.begin();
+    std::cout << "before : ";
+     while (itt != input_deque.end())
+    {
+        std::cout << *itt << " ";
+        ++itt;
+    }
+    std::cout << std::endl;
+    start = get_time();
     mergeSort(input_vector, 0, input_vector.size() - 1);
+    vec = (get_time() - start);
+    start = get_time();
+    mergeSort(input_deque,0,input_deque.size() - 1);
+    deq = (get_time() - start);
     std::vector<int>::iterator it = input_vector.begin();
+    std::cout << "after : ";
     while (it != input_vector.end())
     {
         std::cout << *it << " ";
         ++it;
     }
-    std:: cout << "\n";
-    mergeSort(input_deque,0,input_deque.size() - 1);
-    //std::deque<int>::iterator itt = input_deque.begin();
- /*    while (itt != input_deque.end())
-    {
-        std::cout << *itt << std::endl;
-        ++itt;
-    } */
+    std:: cout << std::endl;
+    std:: cout << "time to proccess the vector mergeinsertion sort is : " << vec << " ms\n"
+                << "time to proccess the deque mergeinsertion sort is : " << deq << " ms" << std::endl;
     
 }
 
 
-/////////////////////////////////////////////////////////
 
 bool PmergeMe::is_numeric(std::string const &str)
 {
@@ -150,4 +150,11 @@ PmergeMe *PmergeMe::getMerge(char **av)
 const char *PmergeMe::BADINPUT::what()const throw()
 {
     return "error";
+}
+
+double PmergeMe::get_time()
+{
+    struct timeval time;
+    gettimeofday(&time,NULL);
+    return ((time.tv_sec * 1000) + (time.tv_usec * 0.001));
 }

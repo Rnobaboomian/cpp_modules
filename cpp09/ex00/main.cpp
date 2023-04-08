@@ -8,6 +8,5 @@ int main(int ac,char **av)
     exchange->fill_rate();
     exchange->startExchange();
     delete exchange;
-    //while(1);
     return 1;
 }

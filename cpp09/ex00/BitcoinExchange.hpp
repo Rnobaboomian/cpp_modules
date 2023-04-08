@@ -23,6 +23,32 @@ private:
     {
         const char *what() const throw();
     };
+    struct BAD_INPUT : public std::exception
+    {
+            std::string input;
+            BAD_INPUT(std::string input) : input(input){}
+            ~BAD_INPUT() throw(){}
+            const char *what() const throw()
+            {
+                std::string msg = "bad input => " + input;
+                return msg.c_str(); 
+            }
+
+    };
+    class NOT_POSITIVE : public std::exception
+    {
+        const char *what() const throw()
+        {
+            return "not a positive number";
+        }
+    };
+    class TOO_LARGE : public std::exception
+    {
+        const char *what() const throw()
+        {
+            return "too large number";
+        }
+    };
 
     
 public:

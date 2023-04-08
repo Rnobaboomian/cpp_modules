@@ -7,6 +7,7 @@
 #include <deque>
 #include <set>
 #include <chrono>
+#include <sys/time.h>
 
 struct ListType
 {
@@ -17,6 +18,7 @@ struct ListType
         deque
 	};
 };
+
 
 class PmergeMe
 {
@@ -40,14 +42,13 @@ private:
     void mergeSort(T& arr, int left, int right);
     PmergeMe();
     PmergeMe(char **av);
+    double get_time();
 public:
     ~PmergeMe();
     bool is_numeric(std::string const &str);
     void hybridSort();
     static PmergeMe *getMerge(char **av);
 };
-
-//#include "./PmergeMe.cpp"
 
 
 

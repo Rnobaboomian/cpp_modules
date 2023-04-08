@@ -1,7 +1,7 @@
 #include "Phonebook.hpp"
 
 Contact::Contact(){}
-//Contact::Contact(){}
+
 Contact::~Contact(){}
 
 
