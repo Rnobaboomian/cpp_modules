@@ -15,6 +15,8 @@ private:
     std::string exchange_list_path;
     BitcoinExchange();
     BitcoinExchange(std::string const &currency_rate_path,std::string const &exchange_list_path);
+    BitcoinExchange(const BitcoinExchange &copy);
+    BitcoinExchange &operator=(const BitcoinExchange &copy);
     class OPEN_FAILURE : public std::exception
     {
         const char *what() const throw();
@@ -26,11 +28,11 @@ private:
     struct BAD_INPUT : public std::exception
     {
             std::string input;
-            BAD_INPUT(std::string input) : input(input){}
+            std::string msg;
+            BAD_INPUT(std::string input) : input(input),msg("bad input => " + input){}
             ~BAD_INPUT() throw(){}
             const char *what() const throw()
             {
-                std::string msg = "bad input => " + input;
                 return msg.c_str(); 
             }
 

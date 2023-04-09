@@ -3,7 +3,7 @@ SRCS		= ${wildcard ./*.cpp}
 OBJS 		= ${SRCS:.cpp=.o}
 CC			= c++
 RM			= rm -f
-CXXFLAGS	= -Wall -Wextra -Werror -std=c++98 #-fsanitize=address -g
+CXXFLAGS	= -Wall -Wextra -Werror -std=c++98 -fsanitize=address -g
 
 %.o: %.cpp
 			$(CC) ${CXXFLAGS} -c $< -o $@

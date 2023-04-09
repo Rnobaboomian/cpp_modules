@@ -136,6 +136,8 @@ void BitcoinExchange::validate(std::string const &text)
     }
     date_ = trim(text.substr(0,index));
     value = trim(text.substr(index + 1,text.size() - index));
+    if(is_numeric(value) == false)
+        throw NOT_POSITIVE();
     vlaue_validate(value);
     if(std::count(date_.begin(),date_.end(),'-') != 2)
     {
@@ -183,7 +185,7 @@ const char *BitcoinExchange::BAD_FORMAT::what()const throw()
 bool BitcoinExchange::is_numeric(std::string const &str)
 {
     std::string::const_iterator it = str.begin();
-    while (it != str.end() && std::isdigit(*it))
+    while (it != str.end() && (std::isdigit(*it) || *it == '.'))
         it++;
     return !str.empty() && it == str.end();
     

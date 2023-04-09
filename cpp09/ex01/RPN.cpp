@@ -49,7 +49,11 @@ float RPN::operation(int a, int b, char op){
    else if(op == '*')
       return b*a;
    else if(op == '/')
+   {
+      if(a == 0)
+         throw ERROR();
       return b/a;
+   }
    else
       return INT_MIN;
 }

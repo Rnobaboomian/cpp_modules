@@ -15,6 +15,9 @@ private:
 private:
     RPN();
     RPN(std::string const &input);
+    RPN(const RPN &copy);
+    RPN &operator=(const RPN &copy);
+
 
 private:
     class ERROR : public std::exception { const char *what() const throw();};
