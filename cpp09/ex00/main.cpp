@@ -13,7 +13,7 @@ int main(int ac,char **av)
     }
     catch(const std::exception& e)
     {
-        std::cerr << e.what() << '\n';
+        std::cerr  << URED << e.what() <<  RESET <<'\n';
     }
     
     return 1;

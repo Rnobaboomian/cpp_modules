@@ -26,10 +26,10 @@ RPN *RPN::getRPN(std::string const &input)
     return instanace;
 }
 
-float RPN::scanNum(char ch){
+double RPN::scanNum(char ch){
    int value;
    value = ch;
-   return float(value-'0');
+   return double(value-'0');
 }
 bool RPN::isOperator(char ch){
    if(ch == '+'|| ch == '-'|| ch == '*'|| ch == '/')
@@ -41,7 +41,10 @@ bool RPN::isOperand(char ch){
       return true;
    return false;
 }
-float RPN::operation(int a, int b, char op){
+double RPN::operation(double a_int, double b_int, char op)
+{
+   double b = b_int * 1.0;  
+   double a = a_int * 1.0;
    if(op == '+')
       return b+a;
    else if(op == '-')
@@ -57,10 +60,10 @@ float RPN::operation(int a, int b, char op){
    else
       return INT_MIN;
 }
-float RPN::start(){
-   int a, b;
+double RPN::start(){
+   double a, b;
    validate();
-   std::stack<float> stk;
+   std::stack<double> stk;
    std::string::iterator it;
    for(it=input.begin(); it!=input.end(); it++){
       if(isOperator(*it) != false){
@@ -102,21 +105,18 @@ int RPN::operator_count(std::string const &cpy)
 }
 int RPN::operand_count(std::string const &cpy)
 {
-	size_t position;
+	//size_t position;
    std::string str = cpy;
    std::string check;
    int res = 0;
-	while ((position = str.find(' ')) != std::string::npos)
+   std::string::iterator it = str.begin();
+	while (it != str.end())
 	{
-      check = str.substr(0, position);
-      if(is_numeric(check))
+      if(std::isdigit(*it))
          ++res;
-		str.erase(0, position + 1);
+      it++;
 	}
-   check = str;
-   if(is_numeric(check))
-         ++res;
-   return res;
+    return res;
 }
 
 std::string RPN::trim(std::string const &str)const 

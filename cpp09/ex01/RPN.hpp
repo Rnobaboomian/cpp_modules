@@ -10,7 +10,7 @@ class RPN
 {
 private:
     static RPN *instanace;
-    std::stack<float>stk;
+    std::stack<double>stk;
     std::string input;
 private:
     RPN();
@@ -24,10 +24,10 @@ private:
 
 private:
     std::string trim(std::string const &str)const;
-    float scanNum(char ch);
+    double scanNum(char ch);
     bool isOperator(char ch);
     bool isOperand(char ch);
-    float operation(int a, int b, char op);
+    double operation(double a, double b, char op);
     bool is_numeric(std::string const &str);
     int operator_count(std::string const &cpy);
     int operand_count(std::string const &cpy);
@@ -35,7 +35,7 @@ private:
 public:
    static RPN *getRPN(std::string const &input);
     ~RPN();
-    float start();
+    double start();
 };
 
 

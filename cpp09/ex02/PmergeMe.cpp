@@ -2,12 +2,10 @@
 
 PmergeMe *PmergeMe::instanace = NULL;
 
-
 PmergeMe::PmergeMe(char **av)
 {
     if(!this->instanace)
     {
-        limit = 10;
         instanace = this;
         int i = 0;
         while (av[++i])
@@ -15,20 +13,15 @@ PmergeMe::PmergeMe(char **av)
             input_deque.push_back(atoi(av[i]));
             input_vector.push_back(atoi(av[i]));
         }
+        limit = input_vector.size() > 16 ? input_vector.size() / 100 : 16;
     }
     else
         this->~PmergeMe();
-    
-}
-PmergeMe::PmergeMe()
-{
 }
 
-PmergeMe::~PmergeMe()
-{
-}
+PmergeMe::PmergeMe() { }
 
-
+PmergeMe::~PmergeMe() { }
 
 
 template <typename T>
@@ -104,7 +97,7 @@ void PmergeMe::hybridSort()
     double deq;
     std::deque<int>::iterator itt = input_deque.begin();
     std::cout << "before : ";
-     while (itt != input_deque.end())
+    while (itt != input_deque.end())
     {
         std::cout << *itt << " ";
         ++itt;

@@ -41,16 +41,16 @@ void BitcoinExchange::fill_rate()
     std::string date;
     std::string rate;
     int index = 0;
-    size_t i = 0;
+
+    // ignoring the first raw
+    std::getline(input, line);
+
     while (std::getline(input, line)) 
 	{
-        if(i++ < 1)
-            continue;
         index = line.find_first_of(',',0);
         date = line.substr(0,index);
         rate = line.substr(index + 1,line.size() - index);
         this->rate.insert(std::pair<std::string,float>(date,std::atof(rate.c_str())));
-        
     }
 }
 
@@ -67,50 +67,41 @@ void BitcoinExchange::startExchange()
     std::string line;
      std::size_t index = 0;
      size_t i = 0;
+    int j = 0;
     while (std::getline(input, line)) 
 	{
-    try
-    {
-        if(line.size() == 0)
+        try
         {
-            throw BAD_INPUT(line);
-        }
-        if(i++ < 1)
-            continue;
-        index = line.find_first_of('|',0);
-        if(index == std::string::npos)
-        {
-            throw BAD_INPUT(line);
-            continue;
-        }
-            validate(line);
-            date_ = trim(line.substr(0,index));
-            value = trim(line.substr(index + 1,line.size() - index));
-            std::map<std::string,float>::iterator it = rate.lower_bound(date_);
-            if(it->first != date_)
+            if(line.size() == 0)
             {
-               
-                if(it != rate.begin())
-                    --it;
+                throw BAD_INPUT(line);
             }
-            std::cout << date_ << " => " << value << " = " << std::atof(value.c_str()) * it->second << std::endl;
-    }
-    catch (const std::invalid_argument &e)
-    {
-            (void)e;
-            std::cerr << "ERROR: not a number " << '\n';
-    }
-    catch(const std::out_of_range &e)
-    {
-        std::cerr << "ERROR: overflow!!" << e.what() << '\n';
-
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-    }
-        
-                
+            if(i++ < 1)
+                continue;
+            index = line.find_first_of('|',0);
+            if(index == std::string::npos)
+            {
+                throw BAD_INPUT(line);
+                continue;
+            }
+                validate(line);
+                date_ = trim(line.substr(0,index));
+                value = trim(line.substr(index + 1,line.size() - index));
+                std::map<std::string,float>::iterator it = rate.lower_bound(date_);
+                if(it->first != date_)
+                {
+                    if(it == rate.begin() && it->first != date_)
+                        throw BAD_INPUT(date_);
+                    if(it != rate.begin())
+                        --it;
+                }
+                std::cout << j << " : " << date_ << " => " << value << " = " << main_value * it->second << std::endl;
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << j << " : " << URED << e.what() <<  RESET <<'\n';
+        } 
+          j++;      
     }
 
     
@@ -136,8 +127,6 @@ void BitcoinExchange::validate(std::string const &text)
     }
     date_ = trim(text.substr(0,index));
     value = trim(text.substr(index + 1,text.size() - index));
-    if(is_numeric(value) == false)
-        throw NOT_POSITIVE();
     vlaue_validate(value);
     if(std::count(date_.begin(),date_.end(),'-') != 2)
     {
@@ -177,10 +166,6 @@ const char *BitcoinExchange::OPEN_FAILURE::what()const throw()
 {
     return "cannot open the file";
 }
-const char *BitcoinExchange::BAD_FORMAT::what()const throw()
-{
-    return "error";
-}
 
 bool BitcoinExchange::is_numeric(std::string const &str)
 {
@@ -208,20 +193,45 @@ void BitcoinExchange::is_valid_date(std::string const &year,std::string const &m
     {
         throw BAD_INPUT(msg);
     }
-    if( (D <= 0 || D > 31) || (Y <= 0) || (M > 12 || M <= 0))
+    if(!valid_input_date(Y,M,D))
     {
         throw BAD_INPUT(msg);
     }
 }
 
-void BitcoinExchange::vlaue_validate(std::string const &value)
+void BitcoinExchange::vlaue_validate(std::string const &value_)
 {
-        if(std::atof(value.c_str()) > 1000)
-            throw TOO_LARGE();
-         if((std::atof(value.c_str()) < 0))
-         {
-                throw NOT_POSITIVE();
-         }
-  
-    
+    char	*endptr;
+    float	value = strtof(value_.c_str(), &endptr);
+    if (*endptr != '\0')
+		throw BAD_FORMAT("value must be a numeric! => " + value_);
+	if (value == -HUGE_VALF)
+		throw BAD_FORMAT("overflow -inf!");
+	if (value < 0)
+		throw BAD_FORMAT("value must be a positive number! => " + value_);
+	if (value == HUGE_VALF)
+		throw BAD_FORMAT("overflow +inf!");
+    if(value > 1000)
+        throw TOO_LARGE();
+    this->main_value = value;
+}
+
+bool BitcoinExchange::valid_input_date(int year,int month,int day)
+{
+    if(1000 <= year  && year <= 3000)
+    {
+        if((month==1 || month==3 || month==5|| month==7|| month==8||month==10||month==12) && day>0 && day<=31)
+            return true;
+        else if((month==4 || month==6 || month==9|| month==11) && (day>0 && day<=30))
+            return true;
+        else if(month==2)
+        {
+            int leapYear = (year%400==0 || (year%100!=0 && year%4==0));
+            return (day > 0 && day <= 28 + leapYear);
+        }
+        else
+            return false;
+    }
+    else
+        return false;
 }
